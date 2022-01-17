@@ -1,8 +1,67 @@
-@import 'tailwindcss/base';
-@import 'tailwindcss/components';
-@import 'tailwindcss/utilities';
-
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
 
 button::after {
   display: none;
+}
+
+.word-bg {
+  background-color: #e6fdfe;
+  color: #021e2b;
+  margin: 10rpx 10rpx;
+  border-radius: 20rpx;
+  border: 6rpx solid #36c3fa;
+  display: flex;
+  flex-direction: row;
+  position: relative;
+
+  .word:not(:last-child) {
+    border-right: 1px solid #81a8d2;
+  }
+  &.checked {
+    .at-icon {
+      visibility: visible;
+    }
+  }
+  &.en {
+    background: none;
+    border-radius: 0;
+    border: 0;
+    width: auto;
+
+    // background: url("../../assets/en-bg.png") top left repeat-x;
+    // background-size: 100% 100%;
+    font-size: 38rpx;
+    line-height: 60rpx;
+    font-family: "Helvetica";
+    // font-family: "Microsoft yahei";
+    border-bottom: 1px solid #999;
+    padding-bottom: 3rpx;
+    padding-top: 3rpx;
+  }
+}
+
+.word {
+  background: url("./assets/blue.png") top left no-repeat;
+  width: 100rpx;
+  height: 100rpx;
+  background-size: contain;
+  font-family: "华文宋体";
+  text-align: center;
+  line-height: 100rpx;
+  // color: #00a9eb;
+  font-size: 60rpx;
+}
+.word-len-1 {
+  width: 100rpx;
+}
+.word-len-2 {
+  width: 200rpx;
+}
+.word-len-3 {
+  width: 300rpx;
+}
+.word-len-4 {
+  width: 400rpx;
 }

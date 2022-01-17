@@ -1,3 +1,5 @@
 export default {
-  navigationBarTitleText: '嘟嘟早教卡'
+  navigationBarBackgroundColor: '#35c3fa',
+  navigationBarTitleText: '快乐听写',
+  navigationBarTextStyle: 'white'
 }

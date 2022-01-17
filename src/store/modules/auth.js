@@ -1,17 +1,18 @@
 import Taro from "@tarojs/taro"
 import * as types from "../mutation-types"
 import { login, logout, me } from "../../api/auth"
-
+import { wxuuid } from "../../utils/util";
 // state
 export const state = {
   token: Taro.getStorageSync('token') || "",
-  userInfo: Taro.getStorageSync('userInfo') || {}
+  userInfo: Taro.getStorageSync('userInfo') || {},
+  userId: Taro.getStorageSync('userId') || wxuuid()
 }
 
 // getters
 export const getters = {
   token: state => state.token,
-  userInfo: state => state.userInfo
+  userInfo: state => state.userInfo,
 }
 
 // mutations

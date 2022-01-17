@@ -1,7 +1,7 @@
 import service from "../utils/request"
 
 const api = {
-  general: '/settings/general'
+  general: '/settings',
 }
 
 export const getGeneralSettings = () => service({
