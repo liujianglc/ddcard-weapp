@@ -1,7 +1,7 @@
 // auth
 export const SET_TOKEN = 'SET_TOKEN'
 export const SET_USERINFO = 'SET_USERINFO'
-
+export const SET_USERID = 'SET_USERID'
 // online
 export const SET_CUMULATIVETIMES = 'SET_CUMULATIVETIMES'
 export const SET_DURATION = 'SET_DURATION'
@@ -10,3 +10,4 @@ export const SET_RECORDID = 'SET_RECORDID'
 
 // config
 export const SET_VIPSHOWSTATUS = 'SET_VIPSHOWSTATUS'
+

@@ -2,6 +2,8 @@ import Taro from "@tarojs/taro"
 import * as types from "../mutation-types"
 import { login, logout, me } from "../../api/auth"
 import { wxuuid } from "../../utils/util";
+
+console.log(wxuuid())
 // state
 export const state = {
   token: Taro.getStorageSync('token') || "",
@@ -24,6 +26,10 @@ export const mutations = {
   [types.SET_USERINFO]: (state, info) => {
     Taro.setStorageSync('userInfo', info)
     state.userInfo = info
+  },
+  [types.SET_USERID]: (state, id) => {
+    Taro.setStorageSync('userId', id)
+    state.userId = id;
   }
 }
 
@@ -34,7 +40,8 @@ export const actions = {
     return new Promise((resolve, reject) => {
       login(params)
         .then(res => {
-          commit("SET_TOKEN", res.data.access_token)
+          commit("SET_TOKEN", res.data.openId)
+          commit('SET_USERINFO', params.userInfo)
           resolve(res)
         })
         .catch(error => {

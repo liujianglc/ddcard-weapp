@@ -33,7 +33,7 @@
   </view>
 </template>
 <script>
-import checkOnIcon from "../../assets/img/icon/check-on.svg"
+import checkOnIcon from "../../assets/img/icon/xuanzhong.svg"
 
 import { mapState } from 'vuex'
 export default {
@@ -55,13 +55,13 @@ export default {
       default: ''
     }
   },
-  computed: {
-    ...mapState('lesson', ['courseId'])
-  },
   data() {
     return {
       checkOnIcon
     }
-  }
+  },
+  computed: {
+    ...mapState('lesson', ['courseId'])
+  },
 }
 </script>

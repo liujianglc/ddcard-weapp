@@ -39,6 +39,12 @@ export const mutations = {
   'SET_SECTION_ID': (state, data) => {
     state.sectionId = data;
     Taro.setStorageSync('sectionId', state.sectionId)
+  },
+  'RESET_LESSSONS': (state) => {
+    state.lessons = state.lessons.map(it => {
+      it.display=false
+      return it
+    })
   }
 }
 

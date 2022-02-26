@@ -1,7 +1,7 @@
 import service from "../utils/request"
 
 const api = {
-  login: '/weapp/authorizations',
+  login: '/getOpenId',
   logout: '/authorizations',
   me: '/me',
   openid: '/getOpenId'

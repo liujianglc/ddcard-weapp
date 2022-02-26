@@ -13,19 +13,22 @@
         </view>
         <view class="flex-1 pl-1">
           <view class="flex justify-between items-center">
-            <view class="text-white text-2xl">
-              刘小豆
+            <view
+              class="text-white text-2xl"
+              @tap="doLogin"
+            >
+              {{ userInfo.nickName || '听小兔' }}
             </view>
             <view class="flex">
               <button
                 class="mb-4 inline-flex justify-center items-center box-border font-bold w-full border-2 border-solid text-gray-900 border-gray-900 bg-yellow-400 rounded-md py-1 px-4 text-xl"
-                @tap="handleUpgrade"
+                open-type="share"
               >
                 分享
               </button>
               <button
                 class="mb-4 ml-2 inline-flex justify-center items-center box-border font-bold w-full border-2 border-solid text-gray-900 border-gray-900 bg-yellow-400 rounded-md py-1 px-4 text-xl"
-                @tap="handleUpgrade"
+                open-type="contact"
               >
                 反馈
               </button>
@@ -52,99 +55,109 @@
         </view>
       </view>
     </view>
-    <view class="py-3 px-3 mt-24 mb-10">
-      <view
-        v-for="lesson in lessons"
-        :key="lesson.id"
-        class="border-solid border-gray-900 shadow-xl rounded-3xl mb-6 "
+    <view class="py-3 px-3 mt-24 mb-12">
+      <template
+        v-for="(lesson, idx) in lessons"
       >
+        <template v-if="idx == 2">
+          <ad
+            :key="'ad-' + idx"
+            unit-id="adunit-208e995305e2222c"
+            class="mb-6"
+          />
+        </template>
         <view
-          class="px-6 py-4 font-bold text-xl"
-          @tap="lesson.display=!lesson.display"
-        >
-          {{ lesson.name }}. {{ lesson.title }}
-        </view>
-        <view
-          v-show="lesson.display"
+          :key="lesson.id"
+          class="border-solid border-gray-900 shadow-xl rounded-3xl mb-6 "
         >
           <view
-            v-if="lesson.common_words.length == 0 && lesson.group_words.length == 0"
-            class="px-2 py-2 w-full flex box-border text-teal-400"
+            class="px-4 py-4 font-bold text-xl"
+            @tap="lesson.display=!lesson.display"
           >
-            该课无生字, 词语
+            {{ lesson.name }}. {{ lesson.title }}
           </view>
           <view
-            v-if="lesson.common_words.length > 0"
-            class="px-2 py-2 w-full flex box-border"
-            @tap="toggleWords(lesson.common_words)"
-          >
-            <image
-              v-if="lesson.common_words.filter(it => selected.includes(it.id)).length == lesson.common_words.length "
-              :src="checkOnIcon"
-              class="w-5 h-5"
-            />
-            <image
-              v-else
-              :src="checkIcon"
-              class="w-5 h-5"
-            />
-            <text class="text-sm ml-2">
-              选择以下生字
-            </text>
-          </view>
-          <view
-            class="flex flex-wrap"
+            v-show="lesson.display"
           >
             <view
-              v-for="word in lesson.common_words"
-              :key="word.id"
+              v-if="lesson.common_words.length == 0 && lesson.group_words.length == 0"
+              class="px-2 py-2 w-full flex box-border text-teal-400 justify-center"
             >
-              <Words
-                :id="word.id"
-                :word="word.word"
-                :xiezi="word.xiezi == 1"
-                :selected="selected.includes(word.id)"
-                @toggle-selected="toggleSelected"
-              />
+              该课无生字, 词语
             </view>
-          </view>
-          <view
-            v-if="lesson.group_words.length > 0"
-            class="px-2 py-2 w-full box-border flex items-center"
-            @tap="toggleWords(lesson.group_words)"
-          >
-            <image
-              v-if="lesson.group_words.filter(it => selected.includes(it.id)).length == lesson.group_words.length "
-              :src="checkOnIcon"
-              class="w-5 h-5"
-            />
-            <image
-              v-else
-              :src="checkIcon"
-              class="w-5 h-5"
-            />
-            <text class="text-sm  ml-2">
-              选择以下词语
-            </text>
-          </view>
-          <view
-            class="flex flex-wrap"
-          >
             <view
-              v-for="word in lesson.group_words"
-              :key="word.id"
+              v-if="lesson.common_words.length > 0"
+              class="px-2 py-2 w-full flex box-border"
+              @tap="toggleWords(lesson.common_words)"
             >
-              <Words
-                :id="word.id"
-                :word="word.word"
-                :xiezi="word.xiezi == 1"
-                :selected="selected.includes(word.id)"
-                @toggle-selected="toggleSelected"
+              <image
+                v-if="lesson.common_words.filter(it => selected.includes(it.id)).length == lesson.common_words.length "
+                :src="checkOnIcon"
+                class="w-5 h-5"
               />
+              <image
+                v-else
+                :src="checkIcon"
+                class="w-5 h-5"
+              />
+              <text class="text-sm ml-2">
+                {{ courseId == 1 ? '选择以下生字': '选择以下单词' }}
+              </text>
+            </view>
+            <view
+              class="flex flex-wrap"
+            >
+              <view
+                v-for="word in lesson.common_words"
+                :key="word.id"
+              >
+                <Words
+                  :id="word.id"
+                  :word="word.word"
+                  :xiezi="word.xiezi == 1"
+                  :selected="selected.includes(word.id)"
+                  @toggle-selected="toggleSelected"
+                />
+              </view>
+            </view>
+            <view
+              v-if="lesson.group_words.length > 0"
+              class="px-2 py-2 w-full box-border flex items-center"
+              @tap="toggleWords(lesson.group_words)"
+            >
+              <image
+                v-if="lesson.group_words.filter(it => selected.includes(it.id)).length == lesson.group_words.length "
+                :src="checkOnIcon"
+                class="w-5 h-5"
+              />
+              <image
+                v-else
+                :src="checkIcon"
+                class="w-5 h-5"
+              />
+              <text class="text-sm  ml-2">
+                {{ courseId == 1 ? '选择以下词语': '选择以下句子' }}
+              </text>
+            </view>
+            <view
+              class="flex flex-wrap"
+            >
+              <view
+                v-for="word in lesson.group_words"
+                :key="word.id"
+              >
+                <Words
+                  :id="word.id"
+                  :word="word.word"
+                  :xiezi="word.xiezi == 1"
+                  :selected="selected.includes(word.id)"
+                  @toggle-selected="toggleSelected"
+                />
+              </view>
             </view>
           </view>
         </view>
-      </view>
+      </template>
     </view>
 
 
@@ -269,10 +282,9 @@ export default {
   },
   onShareAppMessage() {
     return {
-      title: '嘟嘟早教卡',
-      path: `/pages/index/index`,
-      imageUrl: ''
-    }
+      title: "快乐听写-" +  this.courseName + this.gradeName + this.sectionName +  `(${this.courseTypeName})`,
+      path: `/pages/lesson/lesson?gradeId=${this.gradeId}&gradeName=${this.gradeName}&sectionName=${this.sectionName}&sectionId=${this.sectionId}&courseId=${this.courseId}`
+    };
   },
   computed: {
     ...mapGetters({
@@ -285,7 +297,7 @@ export default {
     }),
     ...mapState('lesson', ['gradeId', 'courseId', 'sectionId', 'courseType']),
     ...mapState('setting',['picker']),
-    ...mapState('auth', ['userId']),
+    ...mapState('auth', ['userId', 'userInfo']),
     isVip() {
       return this.userInfo.is_vip || -1
     },
@@ -304,6 +316,7 @@ export default {
       'getLessonList': 'lesson/getLessonList',
     }),
     bindMultiPickerColumnChange(e) {
+      this.$store.commit('lesson/RESET_LESSSONS')
       console.log(e.detail.column, e.detail.value)
       this.selectedPicker[e.detail.column] = e.detail.value
 
@@ -352,6 +365,12 @@ export default {
       this.selectOne = courseTypeIdx == -1 ? 0 : courseTypeIdx
       this.selectTwo = courseIdx == -1 ? 0 : courseIdx
       this.selectThree = sectionIdx == -1 ? 0 : sectionIdx
+
+      this.$store.commit('lesson/SET_COURSE_ID', this.dynPicker[1][this.selectTwo].course_id)
+
+      const section = this.dynPicker[2][this.selectThree]
+      this.$store.commit('lesson/SET_GRADE_ID', section.grade_id)
+      this.$store.commit('lesson/SET_SECTION_ID', section.section_id)
     },
     initPicker() {
       let courseKey = this.picker[0].find(it => it.key == this.courseType).key
@@ -368,7 +387,10 @@ export default {
     },
     bindMultiPickerChange() {
       this.originalPicker = { courseType: this.courseType, courseId: this.courseId, gradeId: this.gradeId, sectionId: this.sectionId, selectOne: this.selectOne, selectTwo: this.selectTwo, selectThree: this.selectThree}
-      this.getLessonList()
+      Taro.showLoading()
+      this.getLessonList().then(() => {
+        Taro.hideLoading()
+      })
       console.log(JSON.stringify(this.originalPicker))
     },
     cancelChange() {
@@ -399,9 +421,13 @@ export default {
       }
     },
     handleBegin() {
+      if (this.selected.length < 1) {
+        return
+      }
       Taro.showLoading({
         title: '加载中',
       })
+
       createExam(this.userId, this.selected).then(res => {
         // log.info(`createExam response: ${JSON.stringify(res.data.data)}`);
         const { exam_id, exam_name } = res.data.data;
@@ -467,6 +493,17 @@ export default {
         .finally(_ => {
           this.closeLockDialog()
         })
+    },
+    doLogin() {
+      if (this.userId.indexOf('-') == -1) {
+        return;
+      }
+      this.handleTo('/pages/auth/index?redirect_url=' + encodeURIComponent('/pages/index/index'))
+    },
+    handleTo(url) {
+      Taro.navigateTo({
+        url: url
+      })
     },
     handleUpgrade() {
       Taro.navigateTo({
