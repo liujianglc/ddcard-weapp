@@ -33,6 +33,7 @@ export const actions = {
     return new Promise((resolve, reject) => {
       getGeneralSettings()
         .then(res => {
+          // console.log(res)
           // commit("SET_VIPSHOWSTATUS", res.data.vip_show == 1)
           commit("SET_PICKER", res.data.picker)
           commit('SET_TIP_NOTE', res.data.note)

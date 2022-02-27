@@ -25,20 +25,28 @@ export const mutations = {
     state.lessons = data
   },
   'SET_GRADE_ID': (state, data) => {
-    state.gradeId = data;
-    Taro.setStorageSync('gradeId', state.gradeId)
+    if (data) {
+      state.gradeId = data;
+      Taro.setStorageSync('gradeId', state.gradeId)
+    }
   },
   'SET_COURSE_ID': (state, data) => {
-    state.courseId = data;
-    Taro.setStorageSync('courseId', state.courseId)
+    if (data) {
+      state.courseId = data;
+      Taro.setStorageSync('courseId', state.courseId)
+    }
   },
   'SET_COURSE_TYPE': (state, data) => {
-    state.courseType = data;
-    Taro.setStorageSync('courseType', state.courseType)
+    if (data) {
+      state.courseType = data;
+      Taro.setStorageSync('courseType', state.courseType)
+    }
   },
   'SET_SECTION_ID': (state, data) => {
-    state.sectionId = data;
-    Taro.setStorageSync('sectionId', state.sectionId)
+    if (data) {
+      state.sectionId = data;
+      Taro.setStorageSync('sectionId', state.sectionId)
+    }
   },
   'RESET_LESSSONS': (state) => {
     state.lessons = state.lessons.map(it => {

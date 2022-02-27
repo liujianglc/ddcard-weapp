@@ -55,7 +55,7 @@
         </view>
       </view>
     </view>
-    <view class="py-3 px-3 mt-24 mb-12">
+    <view class="py-3 px-3 mb-12  mt-24 ">
       <template
         v-for="(lesson, idx) in lessons"
       >
@@ -77,7 +77,8 @@
             {{ lesson.name }}. {{ lesson.title }}
           </view>
           <view
-            v-show="lesson.display"
+            v-if="lesson.display"
+            class="pb-4"
           >
             <view
               v-if="lesson.common_words.length == 0 && lesson.group_words.length == 0"
@@ -272,10 +273,6 @@ export default {
     }
   },
   onShow() {
-    this.getSettings().then(res => {
-      this.initPicker()
-    })
-    this.getGroups()
   },
   onHide() {
     this.closeLockDialog()
@@ -283,8 +280,22 @@ export default {
   onShareAppMessage() {
     return {
       title: "快乐听写-" +  this.courseName + this.gradeName + this.sectionName +  `(${this.courseTypeName})`,
-      path: `/pages/lesson/lesson?gradeId=${this.gradeId}&gradeName=${this.gradeName}&sectionName=${this.sectionName}&sectionId=${this.sectionId}&courseId=${this.courseId}`
+      path: `/pages/index/index?gradeId=${this.gradeId}&gradeName=${this.gradeName}&sectionName=${this.sectionName}&sectionId=${this.sectionId}&courseId=${this.courseId}&courseType=${this.courseType}`
     };
+  },
+  onLoad(options) {
+    console.log(options)
+    if (options) {
+      this.$store.commit('lesson/SET_COURSE_TYPE', options['courseType'])
+      this.$store.commit('lesson/SET_COURSE_ID', options['courseId'])
+      this.$store.commit('lesson/SET_GRADE_ID', options['gradeId'])
+      this.$store.commit('lesson/SET_SECTION_ID', options['sectionId'])
+    }
+
+    this.getSettings().then(res => {
+      this.initPicker()
+    })
+    this.getGroups()
   },
   computed: {
     ...mapGetters({
@@ -296,7 +307,7 @@ export default {
       'sectionName': 'lesson/sectionName',
     }),
     ...mapState('lesson', ['gradeId', 'courseId', 'sectionId', 'courseType']),
-    ...mapState('setting',['picker']),
+    ...mapState('setting',['picker', 'tipNote']),
     ...mapState('auth', ['userId', 'userInfo']),
     isVip() {
       return this.userInfo.is_vip || -1
